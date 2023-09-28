@@ -62,15 +62,17 @@
 </svelte:head>
 
 <section class="flex flex-col justify-center items-center flex-grow">
-	<h1 class="text-3xl font-semibold w-full text-center">Pomodoro Timer</h1>
-	<div class={timerDone ? 'text-2xl my-4 text-red-500' : 'text-2xl my-4'}>
-		{minutes}:{seconds < 10 ? '0' : ''}{seconds}
+	<div class="flex flex-col justify-center items-center">
+		<h1 class="text-6xl font-extrabold w-full text-center block uppercase p-4">Pomodoro Timer</h1>
+		<div class={timerDone ? 'text-5xl my-16 text-red-500' : 'text-5xl my-16'}>
+			{minutes}:{seconds < 10 ? '0' : ''}{seconds}
+		</div>
 	</div>
 	<button
 		on:click={() => {
 			startTimer();
 		}}
-		class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded mb-2"
+		class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded mb-2 text-4xl w-64"
 	>
 		{isActive && !timerDone ? 'Pause' : 'Start'}
 	</button>
@@ -79,7 +81,7 @@
 			resetTimer();
 			timerDone = false;
 		}}
-		class="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded"
+		class="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded mb-2 text-4xl w-64"
 	>
 		Reset
 	</button>
@@ -89,3 +91,7 @@
 	<audio src="/alarm.mp3" bind:this={alertSound} />
 	<!-- Binding the audio element -->
 </section>
+
+<style>
+	/* Add any additional styling here */
+</style>
