@@ -1,59 +1,41 @@
-<script>
-	import Counter from './Counter.svelte';
-	import welcome from '$lib/images/svelte-welcome.webp';
-	import welcome_fallback from '$lib/images/svelte-welcome.png';
+<script lang="ts">
+	import timer, { startTimer, resetTimer } from './timer';
+
+	let minutes: number;
+	let seconds: number;
+	let isActive: boolean;
+
+	const unsubscribe = timer.subscribe(($timer) => {
+		minutes = $timer.minutes;
+		seconds = $timer.seconds;
+		isActive = $timer.isActive;
+	});
 </script>
 
 <svelte:head>
-	<title>Home</title>
-	<meta name="description" content="Svelte demo app" />
+	<title>Pomodoro Timer</title>
+	<meta name="description" content="Pomodoro Timer built with SvelteKit" />
 </svelte:head>
 
-<section>
-	<h1>
-		<span class="welcome">
-			<picture>
-				<source srcset={welcome} type="image/webp" />
-				<img src={welcome_fallback} alt="Welcome" />
-			</picture>
-		</span>
-
-		to your new<br />SvelteKit app
-	</h1>
-
-	<h2>
-		try editing <strong>src/routes/+page.svelte</strong>
-	</h2>
-
-	<Counter />
+<section class="flex flex-col justify-center items-center flex-grow">
+	<h1 class="text-3xl font-semibold w-full text-center">Pomodoro Timer</h1>
+	<div class="text-2xl my-4">
+		{minutes}:{seconds < 10 ? '0' : ''}{seconds}
+	</div>
+	<button
+		on:click={() => startTimer()}
+		class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded mb-2"
+	>
+		{isActive ? 'Pause' : 'Start'}
+	</button>
+	<button
+		on:click={() => resetTimer()}
+		class="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded"
+	>
+		Reset
+	</button>
 </section>
 
 <style>
-	section {
-		display: flex;
-		flex-direction: column;
-		justify-content: center;
-		align-items: center;
-		flex: 0.6;
-	}
-
-	h1 {
-		width: 100%;
-	}
-
-	.welcome {
-		display: block;
-		position: relative;
-		width: 100%;
-		height: 0;
-		padding: 0 0 calc(100% * 495 / 2048) 0;
-	}
-
-	.welcome img {
-		position: absolute;
-		width: 100%;
-		height: 100%;
-		top: 0;
-		display: block;
-	}
+	/* You can keep the styles empty if you are fully using Tailwind CSS */
 </style>
